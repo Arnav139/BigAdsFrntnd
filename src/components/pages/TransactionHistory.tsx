@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -23,21 +21,19 @@ interface Game {
 interface Transaction {
   toUser: User;
   transactionHash: string;
-  transactionChain:string;
+  transactionChain: string;
   event: Event;
   game: Game;
-  
 }
 
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [fiterTransactions, setFilterTransactions] = useState<Transaction[]>(
-    []
-  );
+  const [filterTransactions, setFilterTransactions] = useState<Transaction[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<any>("Filter");
   const [showFilterOptions, setShowFilterOptions] = useState<any>(false);
+  const [currentFilter, setCurrentFilter] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -48,7 +44,6 @@ const TransactionHistory = () => {
         setTransactions(response.data.data);
         setFilterTransactions(response.data.data);
       } catch (error) {
-        // console.log(error);
         setError("Failed to load transactions");
       } finally {
         setLoading(false);
@@ -98,21 +93,19 @@ const TransactionHistory = () => {
   };
 
   const selectFilter = (option: any) => {
-    if (option === "polygon") {
+    if (option === "polygon" || option === "Diamante") {
       const filtered: any = transactions.filter(
         (transaction: any) =>
-          transaction?.transactionChain === "POLYGON Testnet"
+          transaction?.transactionChain ===
+          (option === "polygon" ? "POLYGON Testnet" : "DIAMANTE Testnet")
       );
       setFilterTransactions(filtered);
-      setSelectedFilter("Polygon");
-    }
-    if (option === "Diamante") {
-      const filtered: any = transactions.filter(
-        (transaction: any) =>
-          transaction?.transactionChain === "DIAMANTE Testnet"
-      );
-      setFilterTransactions(filtered);
-      setSelectedFilter("Diamante");
+      setSelectedFilter(option === "polygon" ? "Polygon" : "Diamante");
+      setCurrentFilter(option);
+    } else if (option === "all") {
+      setFilterTransactions(transactions);
+      setSelectedFilter("Filter");
+      setCurrentFilter(null);
     }
     setShowFilterOptions(false);
   };
@@ -120,30 +113,32 @@ const TransactionHistory = () => {
   const resetFilter = () => {
     setFilterTransactions(transactions);
     setSelectedFilter("Filter");
+    setCurrentFilter(null);
   };
 
   return (
-    <div className="h-full w-fulllz bg-white border border-black rounded-md p-2">
+    <div className="h-full w-full bg-white border border-black rounded-md p-2">
       <div className="w-full flex items-center justify-between rounded-md p-2">
         <p className="text-[14px] md:text-xl font-semibold text-black">
           Transaction Analytics
         </p>
         <div className="flex items-center gap-2">
           <div className="relative">
-            <div className=" bg-indigo-200 border border-black text-balck flex items-center gap-2 rounded-md px-4 py-2">
+            <div
+              className="bg-indigo-200 cursor-pointer border border-black text-black flex items-center gap-2 rounded-md px-4 py-2"
+              onClick={filter}
+            >
               <button
-                onClick={filter}
                 className="hidden md:block text-black rounded-md cursor-pointer"
               >
                 {`${selectedFilter} ${
                   selectedFilter === "Polygon" || selectedFilter === "Diamante"
-                    ? `(${fiterTransactions.length})`
+                    ? `(${filterTransactions.length})`
                     : ""
                 }`}
               </button>
               <button
-                onClick={filter}
-                className={` ${
+                className={`${
                   selectedFilter === "Polygon" || selectedFilter === "Diamante"
                     ? "hidden"
                     : "block"
@@ -153,7 +148,6 @@ const TransactionHistory = () => {
                   width={15}
                   height={15}
                   src="/Icons/filter.svg"
-                  className=""
                   alt="filter"
                 /> */}
               </button>
@@ -169,29 +163,49 @@ const TransactionHistory = () => {
                   width={15}
                   height={15}
                   src="/Icons/refresh.svg"
-                  className=""
                   alt=""
                 /> */}
               </p>
             </div>
             <div
-              className={` ${
+              className={`${
                 showFilterOptions ? "block" : "hidden"
               } absolute top-10 left-0 bg-[#14191F] rounded-md p-2 z-50 border border-[#31373F46]`}
             >
-              <ul className={`flex flex-col`}>
-                <li
-                  className="cursor-pointer border-b pb-1"
-                  onClick={() => selectFilter("polygon")}
-                >
-                  Polygon
-                </li>
-                <li
-                  className="cursor-pointer pt-1"
-                  onClick={() => selectFilter("Diamante")}
-                >
-                  Diamante
-                </li>
+              <ul className="flex flex-col">
+                {currentFilter ? (
+                  <>
+                    <li
+                      className="cursor-pointer border-b pb-1"
+                      onClick={() => selectFilter("all")}
+                    >
+                      All
+                    </li>
+                    <li
+                      className="cursor-pointer pt-1"
+                      onClick={() =>
+                        selectFilter(currentFilter === "polygon" ? "Diamante" : "polygon")
+                      }
+                    >
+                      {currentFilter === "polygon" ? "Diamante" : "Polygon"}
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li
+                      className="cursor-pointer border-b pb-1"
+                      onClick={() => selectFilter("polygon")}
+                    >
+                      Polygon
+                    </li>
+                    <li
+                      className="cursor-pointer pt-1"
+                      onClick={() => selectFilter("Diamante")}
+                    >
+                      Diamante
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
@@ -244,56 +258,57 @@ const TransactionHistory = () => {
         </div>
 
         {/* Table Body */}
-<div className="w-full h-[calc(100%-40px)] min-w-[1040px] pt-4">
-  {loading ? (
-    <p className="text-center mt-4">Loading...</p>
-  ) : error ? (
-    <p className="text-center mt-4 text-red-500">{error}</p>
-  ) : (
-    fiterTransactions.map((item, index) => {
-      // Determine the link based on the transactionChain
-      const link = item.transactionChain === "POLYGON Testnet" 
-        ? `https://www.oklink.com/amoy/tx/${item.transactionHash}` 
-        : item.transactionChain === "DIAMANTE Testnet" 
-        ? `https://testnetexplorer.diamante.io/about-tx-hash/${item.transactionHash}` 
-        : "#"; // Fallback link
+        <div className="w-full h-[calc(100%-40px)] min-w-[1040px] pt-4">
+          {loading ? (
+            <p className="text-center mt-4">Loading...</p>
+          ) : error ? (
+            <p className="text-center mt-4 text-red-500">{error}</p>
+          ) : (
+            filterTransactions.map((item, index) => {
+              // Determine the link based on the transactionChain
+              const link =
+                item.transactionChain === "POLYGON Testnet"
+                  ? `https://www.oklink.com/amoy/tx/${item.transactionHash}`
+                  : item.transactionChain === "DIAMANTE Testnet"
+                  ? `https://testnetexplorer.diamante.io/about-tx-hash/${item.transactionHash}`
+                  : "#"; // Fallback link
 
-      return (
-        <div
-          key={index}
-          className={`text-[#f1f1f1c0] w-full min-w-[800px] md:min-w-full flex gap-2 items-start ${
-            index == transactions.length - 1 ? "" : "border-b"
-          } border-[#31373F46] py-2 hover:bg-[#14191F50] transition-all duration-300 cursor-pointer`}
-          onClick={() => window.location.href = link} // Navigate to the link
-        >
-          <div className="w-[5%] min-w-[40px] truncate text-black">
-            <p className="text-center">{index + 1}</p>
-          </div>
-          <div className="w-[15%] min-w-[150px] truncate text-black">
-            <p>{item.toUser.userId}</p>
-          </div>
-          <div className="w-[40%] min-w-[350px] truncate text-black">
-            <p>{item.transactionHash}</p>
-          </div>
-          <div className="w-[10%] min-w-[100px] truncate text-black">
-            <p>{item.event.eventType}</p>
-          </div>
-          <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
-            <p>
-              {item.game.name} ({item.game.type})
-            </p>
-          </div>
-          <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
-            <p>{item.event.eventId}</p>
-          </div>
-          <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
-            <p>success</p>
-          </div>
+              return (
+                <div
+                  key={index}
+                  className={`text-[#f1f1f1c0] w-full min-w-[800px] md:min-w-full flex gap-2 items-start ${
+                    index == transactions.length - 1 ? "" : "border-b"
+                  } border-[#31373F46] py-2 hover:bg-[#14191F50] transition-all duration-300 cursor-pointer`}
+                  onClick={() => (window.location.href = link)} // Navigate to the link
+                >
+                  <div className="w-[5%] min-w-[40px] truncate text-black">
+                    <p className="text-center">{index + 1}</p>
+                  </div>
+                  <div className="w-[15%] min-w-[150px] truncate text-black">
+                    <p>{item.toUser.userId}</p>
+                  </div>
+                  <div className="w-[40%] min-w-[350px] truncate text-black">
+                    <p>{item.transactionHash}</p>
+                  </div>
+                  <div className="w-[10%] min-w-[100px] truncate text-black">
+                    <p>{item.event.eventType}</p>
+                  </div>
+                  <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
+                    <p>
+                      {item.game.name} ({item.game.type})
+                    </p>
+                  </div>
+                  <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
+                    <p>{item.event.eventId}</p>
+                  </div>
+                  <div className="w-[10%] min-w-[100px] flex items-center truncate text-black">
+                    <p>success</p>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
-      );
-    })
-  )}
-</div>
       </div>
     </div>
   );

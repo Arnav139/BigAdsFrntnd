@@ -23,10 +23,14 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
+  const [activeEventId, setActiveEventId] = useState<string | null>(null);
 
   // Function to handle the firing of the event
   const handleFireEvent = async (eventId: string, gameId: number) => {
     try {
+      // Set the active event ID
+      setActiveEventId(eventId);
+
       // Set loading state for the specific event
       setLoadingEvents((prev) => ({ ...prev, [eventId]: true }));
 
@@ -60,6 +64,8 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
     } finally {
       // Reset loading state for the specific event
       setLoadingEvents((prev) => ({ ...prev, [eventId]: false }));
+      // Reset the active event ID
+      setActiveEventId(null);
     }
   };
 
@@ -142,6 +148,7 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
                     size="sm"
                     onClick={() => handleFireEvent(event.eventId, event.gameId)}
                     loading={loadingEvents[event.eventId] || false}
+                    disabled={activeEventId !== null && activeEventId !== event.eventId}
                   >
                     Fire Event
                   </Button>

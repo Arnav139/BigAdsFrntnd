@@ -122,9 +122,9 @@ function App() {
             path="/"
             element={
               <div className="space-y-6">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center sm:flex-row flex-col gap-4">
                   <div>
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <h1 className="text-2xl font-bold text-gray-900 ">
                       Welcome to Bigads
                     </h1>
                     <p className="mt-1 text-sm text-gray-500">
