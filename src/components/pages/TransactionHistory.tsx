@@ -70,12 +70,12 @@ const TransactionHistory = () => {
 
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
     worksheet["!cols"] = [
-      { wch: 6 }, // Sl.No
-      { wch: 20 }, // Player
-      { wch: 60 }, // Transaction Hash
-      { wch: 25 }, // Event Type
-      { wch: 30 }, // Game
-      { wch: 25 }, // Event ID
+      { wch: 6 },
+      { wch: 20 },
+      { wch: 60 },
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 25 },
     ];
 
     const workbook = XLSX.utils.book_new();
@@ -110,79 +110,67 @@ const TransactionHistory = () => {
     setShowFilterOptions(false);
   };
 
-  const resetFilter = () => {
-    setFilterTransactions(transactions);
-    setSelectedFilter("Filter");
-    setCurrentFilter(null);
-  };
-
   return (
     <div className="h-full w-full bg-white border border-black rounded-md p-2">
-      <div className="w-full flex items-center justify-between rounded-md p-2">
+      <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-md p-2 gap-2">
         <p className="text-[14px] md:text-xl font-semibold text-black">
           Transaction Analytics
         </p>
-        <div className="flex items-center gap-2">
-          <div className="relative">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none">
             <div
-              className="bg-indigo-200 cursor-pointer border border-black text-black flex items-center gap-2 rounded-md px-4 py-2"
+              className="bg-indigo-200 cursor-pointer border border-black text-black flex items-center justify-center gap-2 rounded-md px-2 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
               onClick={filter}
             >
-              <button
-                className="hidden md:block text-black rounded-md cursor-pointer"
-              >
+              <span className="text-black text-center text-sm sm:text-base">
                 {`${selectedFilter} ${
                   selectedFilter === "Polygon" || selectedFilter === "Diamante"
                     ? `(${filterTransactions.length})`
                     : ""
                 }`}
-              </button>
-              <button
-                className={`${
-                  selectedFilter === "Polygon" || selectedFilter === "Diamante"
-                    ? "hidden"
-                    : "block"
-                } md:hidden text-white rounded-md cursor-pointer`}
-              >
-                {/* <Image
-                  width={15}
-                  height={15}
-                  src="/Icons/filter.svg"
-                  alt="filter"
-                /> */}
-              </button>
-              <p
-                className={`cursor-pointer ${
-                  selectedFilter === "Polygon" || selectedFilter === "Diamante"
-                    ? "block"
-                    : "hidden"
-                }`}
-                onClick={resetFilter}
-              >
-                {/* <Image
-                  width={15}
-                  height={15}
-                  src="/Icons/refresh.svg"
-                  alt=""
-                /> */}
-              </p>
+              </span>
+              {/* Uncomment and adjust if using Image component */}
+              {/* <Image
+                width={15}
+                height={15}
+                src="/Icons/filter.svg"
+                alt="filter"
+                className="sm:hidden"
+              /> */}
+              {selectedFilter === "Polygon" || selectedFilter === "Diamante" ? (
+                <span
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // resetFilter();
+                  }}
+                >
+                  {/* <Image
+                    width={15}
+                    height={15}
+                    src="/Icons/refresh.svg"
+                    alt="reset"
+                  /> */}
+                  {/* <span className="text-xs sm:text-sm">Reset</span> */}
+                </span>
+              ) : null}
             </div>
             <div
               className={`${
                 showFilterOptions ? "block" : "hidden"
-              } absolute top-10 left-0 bg-[#14191F] rounded-md p-2 z-50 border border-[#31373F46]`}
+              } absolute top-10 left-0 bg-[#14191F] rounded-md p-2 z-50 border border-[#31373F46] w-full sm:w-auto`}
             >
               <ul className="flex flex-col">
                 {currentFilter ? (
                   <>
                     <li
-                      className="cursor-pointer border-b pb-1"
+                      className="cursor-pointer border-b pb-1 text-white text-sm sm:text-base"
                       onClick={() => selectFilter("all")}
                     >
                       All
                     </li>
                     <li
-                      className="cursor-pointer pt-1"
+                      className="cursor-pointer pt-1 text-white text-sm sm:text-base"
                       onClick={() =>
                         selectFilter(currentFilter === "polygon" ? "Diamante" : "polygon")
                       }
@@ -193,13 +181,13 @@ const TransactionHistory = () => {
                 ) : (
                   <>
                     <li
-                      className="cursor-pointer border-b pb-1"
+                      className="cursor-pointer border-b pb-1 text-white text-sm sm:text-base"
                       onClick={() => selectFilter("polygon")}
                     >
                       Polygon
                     </li>
                     <li
-                      className="cursor-pointer pt-1"
+                      className="cursor-pointer pt-1 text-white text-sm sm:text-base"
                       onClick={() => selectFilter("Diamante")}
                     >
                       Diamante
@@ -211,20 +199,16 @@ const TransactionHistory = () => {
           </div>
           <button
             onClick={exportToExcel}
-            className="hidden md:block bg-indigo-200 text-black px-4 py-2 rounded-md cursor-pointer border border-black"
+            className="bg-indigo-200 text-black px-2 py-1 sm:px-4 sm:py-2 rounded-md cursor-pointer border border-black text-sm sm:text-base flex items-center justify-center gap-1 flex-1 sm:flex-none"
           >
-            Download CSV
-          </button>
-          <button
-            onClick={exportToExcel}
-            className="md:hidden bg-[#000020] text-white px-4 py-2 rounded-md cursor-pointer bg-gradient-to-b from-purple-600 to-black"
-          >
+            <span>Download</span>
+            {/* Uncomment if using Image component */}
             {/* <Image
-              className=""
+              className="sm:hidden"
               width={15}
               height={15}
               src="/Icons/download.svg"
-              alt=""
+              alt="download"
             /> */}
           </button>
         </div>
@@ -233,7 +217,7 @@ const TransactionHistory = () => {
       {/* Table */}
       <div className="w-full h-[400px] md:h-[calc(100%-70px)] overflow-auto mt-4 scroll-hidden">
         {/* Table Header */}
-        <div className="text-black bg-indigo-200 w-full min-w-[1040px] flex gap-2 items-center rounded-md p-2 sticky top-0 z-10 border border-black ">
+        <div className="text-black bg-indigo-200 w-full min-w-[1040px] flex gap-2 items-center rounded-md p-2 sticky top-0 z-10 border border-black">
           <div className="w-[5%] min-w-[40px]">
             <p>Sl.No</p>
           </div>
@@ -265,21 +249,20 @@ const TransactionHistory = () => {
             <p className="text-center mt-4 text-red-500">{error}</p>
           ) : (
             filterTransactions.map((item, index) => {
-              // Determine the link based on the transactionChain
               const link =
                 item.transactionChain === "POLYGON Testnet"
                   ? `https://www.oklink.com/amoy/tx/${item.transactionHash}`
                   : item.transactionChain === "DIAMANTE Testnet"
                   ? `https://testnetexplorer.diamante.io/about-tx-hash/${item.transactionHash}`
-                  : "#"; // Fallback link
+                  : "#";
 
               return (
                 <div
                   key={index}
                   className={`text-[#f1f1f1c0] w-full min-w-[800px] md:min-w-full flex gap-2 items-start ${
-                    index == transactions.length - 1 ? "" : "border-b"
+                    index === transactions.length - 1 ? "" : "border-b"
                   } border-[#31373F46] py-2 hover:bg-[#14191F50] transition-all duration-300 cursor-pointer`}
-                  onClick={() => (window.location.href = link)} // Navigate to the link
+                  onClick={() => (window.location.href = link)}
                 >
                   <div className="w-[5%] min-w-[40px] truncate text-black">
                     <p className="text-center">{index + 1}</p>
