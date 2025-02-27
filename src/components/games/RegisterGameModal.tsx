@@ -33,7 +33,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
   const userData = authData?.state?.userData || {};
   const { role, maAddress, id } = userData;
 
-  // Check creator request status when modal opens
   useEffect(() => {
     const checkRequestStatus = async () => {
       if (role === 'user' && id) {
@@ -58,7 +57,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
       setIsRequestPending(true);
       setCreatorStatus('pending');
       toast.success('Your request to become a creator has been sent successfully!');
-      // onClose();
     } catch (error) {
       if ((error as ApiError).message) {
         toast.error((error as ApiError).message);
@@ -88,7 +86,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
         _id: response.data.game.id,
         gameToken: response.data.Gametoken || '',
         isApproved: false,
-        // network: response.data.game.gameSaAddress?.startsWith('0x') ? 'metamask' : 'diamente',
         events: response.data.events.map((event, index) => ({
           ...event,
           id: index + 1,
@@ -98,7 +95,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
 
       toast.success(response.message || "Game registered successfully!");
       
-      // Reset form fields after successful submission
       setFormData({
         name: '',
         type: '',
@@ -114,8 +110,11 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
     }
   };
   
-
   const handleAddEvent = () => {
+    if (events.length >= 4) {
+      toast.error('You can only add up to 4 events.');
+      return;
+    }
     setEvents([...events, { eventType: '' }]);
   };
 
@@ -131,10 +130,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Show register game form if user is creator or has fulfilled status
   if (role === 'creator' || creatorStatus === 'fulfilled' || role === 'admin') {
     return (
-      <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="fixed inset-0  bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50">
         <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900">Register New Game</h2>
@@ -143,8 +141,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-6" >
-            <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Scrollable container for form content */}
+            <div className={`space-y-4 p-2 ${events.length > 1 ? 'max-h-[60vh] overflow-y-auto no-scrollbar' : ''}`}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Game Name
@@ -169,9 +168,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   id="type"
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                   className="mt-1 block p-2 w-full bg-gray-200 h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block p-2 w-full bg-gray-200 h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
-                  placeholder='Game Type'
+                  placeholder="Game Type"
                 />
               </div>
 
@@ -186,7 +185,7 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   rows={3}
                   className="mt-1 block p-2 w-full bg-gray-200 h-40 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
-                  placeholder='Game Description'
+                  placeholder="Game Description"
                 />
               </div>
 
@@ -198,7 +197,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   <Button
                     type="button"
                     variant="outline2"
-                    
                     size="sm"
                     icon={Plus}
                     onClick={handleAddEvent}
@@ -266,7 +264,6 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
     );
   }
 
-  // Show creator request modal for non-creators
   return (
     <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
