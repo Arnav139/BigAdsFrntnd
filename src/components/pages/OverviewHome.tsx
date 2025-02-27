@@ -9,6 +9,7 @@ import AnalyticCounts from "./AnalyticsCounts";
 // import { useSelector } from "react-redux";
 // import { RootState } from "@/redux/store";
 import LineGraph from "./LineGraph";
+import { Loader } from "lucide-react";
 
 interface CountData {
   users: number;
@@ -72,7 +73,7 @@ const OverViewHome = () => {
   const polygon = countData?.polygon;
   const diamante = countData?.diamante;
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return  <Loader className="w-6 h-6 text-white animate-spin flex justify-center items-center" /> //<p className="text-white">Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
   // console.log(countData.users ,"usersssssssssssssssssssss")

@@ -52,7 +52,7 @@ const Sidebar: React.FC<{isSidebarOpen: boolean; setIsSidebarOpen: any}> = ({isS
         <div className="flex flex-1 flex-col overflow-y-auto lg:pt-5 pb-40 pt-20">
           <div className="flex flex-shrink-0 items-center px-4">
             {/* <GamepadIcon className="h-8 w-8 text-indigo-600" /> */}
-            <img src={logo} alt="Bigads Logo" className="h-20 w-30" />
+            <img src={logo} alt="Bigads Logo" className="h-16 w-24 sm:h-20 sm:w-30 md:h-24 md:w-36 lg:h-28 lg:w-40" />
             {/* <span className="ml-2 text-xl font-bold text-white">Bigads</span> */}
           </div>
           <nav className="mt-8 flex-1 space-y-1 px-2">

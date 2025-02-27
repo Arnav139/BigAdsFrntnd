@@ -15,6 +15,11 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const handleButtonClick = (action: () => void) => {
+    action();
+    setIsProfileOpen(false);
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50" style={{ background: 'linear-gradient(104deg, rgb(0, 0, 56) 0%, rgb(113, 0, 132) 100%)' }}>
       <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -48,7 +53,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
             className={cn(
               "flex items-center gap-2 sm:gap-4",
               "sm:static sm:flex",
-              isProfileOpen ? "absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 flex-col" : "hidden",
+              isProfileOpen ? "absolute top-12 right-0 bg-[rgb(0,0,56)] border border-gray-200 rounded-lg shadow-lg p-4 flex-col" : "hidden",
               "sm:bg-transparent sm:border-none sm:shadow-none sm:p-0 sm:flex-row"
             )}
           >
@@ -64,7 +69,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                     <span className='hidden sm:inline text-xs'>ID:</span> {userData.userId}
                   </span>
                 )}
-                <span className="text-xs sm:text-sm text-white flex items-center">
+                <span className="text-xs sm:text-sm  text-white flex items-center">
                   {/* Conditionally render the wallet icon for smaller screens */}
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2"  />
@@ -79,7 +84,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                     {isCopied ? (
                       <Check className="w-4 h-4 text-green-600" />
                     ) : (
-                      <Copy className="w-4 h-4 text-white" />
+                      <Copy className="w-4 h-4 text-white" aria-label="Copy Wallet Address" />
                     )}
                   </button>
                 </span>
@@ -100,8 +105,8 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
               <span className="text-sm text-white sm:hidden">Settings</span>
             </button>
             <button
-              onClick={disconnect}
-              className=" hover:bg-[#9d39eaa2] rounded-lg flex items-center gap-2 p-2 bg-[#8427cb48] w-full text-left text-red-600"
+              onClick={() => handleButtonClick(disconnect)}
+              className=" hover:bg-[#9d39eaa2] rounded-lg flex items-center gap-2 p-2 bg-[#8427cb48] sm:bg-[#8427cb48] sm:hover:bg-[#8427cb48] w-full text-left text-red-600"
               title="Disconnect Wallet"
               aria-label="Disconnect Wallet"
             >

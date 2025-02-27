@@ -80,20 +80,20 @@ function App() {
     if (userRole === "user") {
       if (isRequestPending || creatorStatus === "pending") {
         return (
-          <Button icon={Key} disabled variant="outline2" className="border-white border-2">
+          <Button icon={Key} disabled variant="outline3" className="border-white border-2">
             Creator Request Pending
           </Button>
         );
       }
       if (creatorStatus === "rejected") {
         return (
-          <Button icon={Key} disabled variant="outline2">
+          <Button icon={Key} disabled variant="outline3">
             Creator Request Rejected
           </Button>
         );
       }
       return (
-        <Button icon={Key} onClick={handleCreatorRequest}>
+        <Button icon={Key} onClick={handleCreatorRequest} variant="outline3">
           Apply to Become Creator
         </Button>
       );
