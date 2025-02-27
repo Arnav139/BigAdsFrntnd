@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const API_BASE_URL = 'https://data-center-7yhai.ondigitalocean.app';
-const API_BASE_URL = 'http://localhost:8008';
+const API_BASE_URL = 'https://data-center-7yhai.ondigitalocean.app';
+// const API_BASE_URL = 'http://localhost:8008';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
