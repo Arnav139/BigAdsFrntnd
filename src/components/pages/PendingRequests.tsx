@@ -10,7 +10,7 @@ interface CreatorRequest {
   maAddress: string;
   role: string;
   status: string;
-  createdAt: string;
+  createdAt:string;
 }
 
 const PendingRequests = () => {
@@ -68,7 +68,7 @@ const PendingRequests = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 relative">
-      <h1 className="text-2xl font-bold mb-6">Pending Creator Requests</h1>
+      <h1 className="text-2xl font-bold mb-6 text-white">Pending Creator Requests</h1>
 
       {toastMessage && (
         <div
@@ -86,15 +86,15 @@ const PendingRequests = () => {
       )}
 
       <div className="overflow-x-auto rounded-md border">
-        <table className="min-w-full table-auto text-sm">
-          <thead className="bg-gray-100">
+        <table className="min-w-full table-auto text-sm bg-[#ffffff25]">
+          <thead className="bg-[#8427cb8e]">
             <tr>
-              <th className="px-4 py-2 text-left">User ID</th>
-              <th className="px-4 py-2 text-left">Wallet Address</th>
-              <th className="px-4 py-2 text-left">Requested Role</th>
-              <th className="px-4 py-2 text-left">Status</th>
-              <th className="px-4 py-2 text-left">Request Date</th>
-              <th className="px-4 py-2 text-left">Actions</th>
+              <th className="px-4 py-2 text-left text-white">User ID</th>
+              <th className="px-4 py-2 text-left text-white">Wallet Address</th>
+              <th className="px-4 py-2 text-left text-white">Requested Role</th>
+              <th className="px-4 py-2 text-left text-white">Status</th>
+              <th className="px-4 py-2 text-left text-white">Request Date</th>
+              <th className="px-4 py-2 text-left text-white">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -107,17 +107,17 @@ const PendingRequests = () => {
             ) : (
               requests.map((request) => (
                 <tr key={request.id} className="border-t">
-                  <td className="px-4 py-2">{request.userId}</td>
-                  <td className="px-4 py-2 font-mono">
+                  <td className="px-4 py-2 text-white">{request.userId}</td>
+                  <td className="px-4 py-2 font-mono text-white">
                     {request.maAddress.slice(0, 6)}...{request.maAddress.slice(-4)}
                   </td>
-                  <td className="px-4 py-2">{request.role}</td>
+                  <td className="px-4 py-2 text-white">{request.role}</td>
                   <td className="px-4 py-2">
-                    <span className="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
+                    <span className="px-2 py-1 rounded-full text-xs bg-[#8427cbcc] text-white">
                       {request.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 text-white">
                     {format(new Date(request.createdAt), 'MMM dd, yyyy HH:mm')}
                   </td>
                   <td className="px-4 py-2 flex gap-2">

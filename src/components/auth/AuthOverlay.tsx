@@ -46,6 +46,7 @@ const AuthOverlay: React.FC = () => {
             loading={isMetaMaskConnecting}
             disabled={isDiamanteConnecting}
             className="w-full justify-center mb-2"
+            variant="outline2"
           >
             Connect MetaMask
           </Button>
@@ -54,6 +55,7 @@ const AuthOverlay: React.FC = () => {
             loading={isDiamanteConnecting}
             disabled={isMetaMaskConnecting}
             className="w-full justify-center"
+            variant="outline2"
           >
             Connect Diamante Wallet
           </Button>

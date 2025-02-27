@@ -16,18 +16,18 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50">
+    <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50" style={{ background: 'linear-gradient(104deg, rgb(0, 0, 56) 0%, rgb(113, 0, 132) 100%)' }}>
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left Section: Menu Toggle + Title */}
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden flex-shrink-0"
+            className="p-2 hover:bg-[rgb(0,0,56)] text-white rounded-lg lg:hidden flex-shrink-0"
             aria-label="Toggle Sidebar"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          <h1 className="text-lg md:text-xl font-semibold text-gray-800 truncate">
+          <h1 className="text-lg md:text-xl font-semibold text-white truncate">
             Bigads Dashboard
           </h1>
         </div>
@@ -37,7 +37,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
           {/* Profile Icon (Always Visible) */}
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="h-8 w-8 rounded-full bg-indigo-600 mr-2 flex items-center justify-center flex-shrink-0"
+            className="h-8 w-8 rounded-full bg-[#8427cbcc] mr-2 flex items-center justify-center flex-shrink-0"
             aria-label="Toggle Profile Options"
           >
             <span className="text-white text-xs sm:text-sm font-medium">GC</span>
@@ -58,50 +58,50 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                   <span
                     className={cn(
                       "px-2 py-1 text-xs font-semibold rounded",
-                      "bg-green-100 text-green-800"
+                      "bg-[#8427cbcc] text-white"
                     )}
                   >
                     <span className='hidden sm:inline text-xs'>ID:</span> {userData.userId}
                   </span>
                 )}
-                <span className="text-xs sm:text-sm text-gray-600 flex items-center">
+                <span className="text-xs sm:text-sm text-white flex items-center">
                   {/* Conditionally render the wallet icon for smaller screens */}
                   <span className="sm:hidden">
-                    <WalletIcon className="w-4 h-4 text-gray-600 mr-2"  />
+                    <WalletIcon className="w-4 h-4 text-white mr-2"  />
                   </span>
                   {address.slice(0, 4)}...{address.slice(-4)}
                   {/* Copy button for larger screens */}
                   <button
                     onClick={handleCopyAddress}
-                    className=" p-1 hover:bg-gray-100 rounded text-gray-400"
+                    className=" p-1 hover:bg-[rgb(0,0,56)] rounded text-white"
                     aria-label="Copy Wallet Address"
                   >
                     {isCopied ? (
                       <Check className="w-4 h-4 text-green-600" />
                     ) : (
-                      <Copy className="w-4 h-4 text-gray-600" />
+                      <Copy className="w-4 h-4 text-white" />
                     )}
                   </button>
                 </span>
               </div>
             )}
             <button
-              className=" hover:bg-gray-100 rounded-lg flex gap-2 items-center"
+              className=" hover:bg-[rgb(0,0,56)] rounded-lg flex gap-2 items-center"
               aria-label="Notifications"
             >
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-              <span className="text-sm text-gray-600 sm:hidden">Notifications</span>
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <span className="text-sm text-white sm:hidden">Notifications</span>
             </button>
             <button
-              className=" hover:bg-gray-100 rounded-lg flex items-center gap-2 w-full text-left"
+              className=" hover:bg-[rgb(0,0,56)] rounded-lg flex items-center gap-2 w-full text-left"
               aria-label="Settings"
             >
-              <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-              <span className="text-sm text-gray-600 sm:hidden">Settings</span>
+              <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <span className="text-sm text-white sm:hidden">Settings</span>
             </button>
             <button
               onClick={disconnect}
-              className=" hover:bg-gray-100 rounded-lg flex items-center gap-2 w-full text-left text-red-600"
+              className=" hover:bg-[#9d39eaa2] rounded-lg flex items-center gap-2 p-2 bg-[#8427cb48] w-full text-left text-red-600"
               title="Disconnect Wallet"
               aria-label="Disconnect Wallet"
             >

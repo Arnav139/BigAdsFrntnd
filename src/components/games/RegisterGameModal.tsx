@@ -143,7 +143,7 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit} className="p-6 space-y-6" >
             <div className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -154,8 +154,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block p-2 w-full bg-gray-200 h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
+                  placeholder="Game Name"
                 />
               </div>
 
@@ -168,8 +169,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   id="type"
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                   className="mt-1 block p-2 w-full bg-gray-200 h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
+                  placeholder='Game Type'
                 />
               </div>
 
@@ -182,8 +184,9 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block p-2 w-full bg-gray-200 h-40 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
+                  placeholder='Game Description'
                 />
               </div>
 
@@ -194,7 +197,8 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                   </label>
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="outline2"
+                    
                     size="sm"
                     icon={Plus}
                     onClick={handleAddEvent}
@@ -210,13 +214,13 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
                         value={event.eventType}
                         onChange={(e) => handleEventChange(index, e.target.value)}
                         placeholder="Event Type"
-                        className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className="mt-1 block p-2 w-full h-10 bg-gray-200 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         required
                       />
                       {events.length > 1 && (
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="outline2"
                           size="sm"
                           onClick={() => handleRemoveEvent(index)}
                           className="text-red-600 hover:text-red-700"
@@ -243,13 +247,14 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 onClick={onClose}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
+                variant="outline2"
                 loading={isLoading}
               >
                 Register Game
@@ -274,7 +279,7 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
         <div className="flex justify-end gap-3">
           <Button
             type="button"
-            variant="outline"
+            variant="outline2"
             onClick={onClose}
           >
             Close
@@ -282,6 +287,7 @@ const RegisterGameModal: React.FC<RegisterGameModalProps> = ({
           {!isRequestPending && (
             <Button
               type="button"
+              variant="outline2"
               onClick={handleCreatorRequest}
             >
               Apply to Become Creator

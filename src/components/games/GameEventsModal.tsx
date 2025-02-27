@@ -144,7 +144,7 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
                     </p>
                   </div>
                   <Button
-                    variant="outline"
+                    variant="outline2"
                     size="sm"
                     onClick={() => handleFireEvent(event.eventId, event.gameId)}
                     loading={loadingEvents[event.eventId] || false}

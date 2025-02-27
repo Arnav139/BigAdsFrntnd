@@ -2,10 +2,11 @@ import React from 'react';
 import { LucideIcon } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'outline2';
   size?: 'sm' | 'md' | 'lg';
   icon?: LucideIcon;
   loading?: boolean;
+  color?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,9 +21,11 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors';
   
   const variants = {
-    primary: 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500',
-    secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500',
-    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-indigo-500',
+    primary: 'bg-[rgba(113,0,132,0.5)] text-white hover:bg-[rgb(0, 0, 56)] focus:ring-indigo-500',
+    secondary: 'bg-gray-300 text-gray-700 border border-gray-300 hover:bg-gray-200 focus:ring-gray-500',
+    outline: 'border border-gray-300 text-white hover:bg-[rgb(0,0,56)] hover:outline-[rgb(0,0,56)] focus:ring-indigo-500',
+    outline2: 'border border-indigo-600 border-1 text-gray-100 bg-[rgb(113,0,132)] hover:bg-[rgb(0,0,56)] hover:text-white hover:outline-[rgb(0,0,56)] focus:ring-indigo-500',
+    outline3: 'border border-indigo-600 border-1 text-gray-100 bg-[rgb(76,0,109)] hover:bg-[rgb(0,0,56)] hover:text-white hover:outline-[rgb(0,0,56)] focus:ring-indigo-500',
   };
 
   const sizes = {

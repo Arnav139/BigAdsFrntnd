@@ -80,14 +80,14 @@ function App() {
     if (userRole === "user") {
       if (isRequestPending || creatorStatus === "pending") {
         return (
-          <Button icon={Key} disabled variant="outline">
+          <Button icon={Key} disabled variant="outline2" className="border-white border-2">
             Creator Request Pending
           </Button>
         );
       }
       if (creatorStatus === "rejected") {
         return (
-          <Button icon={Key} disabled variant="outline">
+          <Button icon={Key} disabled variant="outline2">
             Creator Request Rejected
           </Button>
         );
@@ -102,7 +102,7 @@ function App() {
     // Only show Register New Game button if userRole is creator and creatorStatus is fulfilled
     if (userRole === "creator" || userRole === "admin") {
       return (
-        <Button icon={Plus} onClick={() => setShowRegisterModal(true)}>
+        <Button icon={Plus} onClick={() => setShowRegisterModal(true)} variant="outline2">
           Register New Game
         </Button>
       );
@@ -124,10 +124,10 @@ function App() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center sm:flex-row flex-col gap-4">
                   <div>
-                    <h1 className="text-2xl font-bold text-gray-900 ">
+                    <h1 className="text-2xl font-bold text-white ">
                       Welcome to Bigads
                     </h1>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-white">
                       Manage your games, events, and API integrations all in one
                       place.
                     </p>
@@ -143,7 +143,7 @@ function App() {
                         first game integrated.
                       </p>
                       <Button
-                        variant="outline"
+                        variant="outline2"
                         icon={ArrowRight}
                         className="w-full"
                         onClick={() =>
@@ -186,7 +186,7 @@ function App() {
                   </Card>
                 </div>
                 <div className="mt-8">
-                  <h2 className="text-lg font-bold text-gray-900 mb-4">
+                  <h2 className="text-lg font-bold text-white mb-4">
                     Games
                   </h2>
                   <GamesList games={games} setGames={setGames} />
@@ -201,10 +201,13 @@ function App() {
 
           {/* Add conditional route for admin */}
           {userRole === "admin" && (
+            <>
             <Route
               path="/dashboard/pending-requests"
               element={<PendingRequests />}
             />
+            <Route path="/dashboard/analytics" element={<Analytics />} />
+            </>
           )}
 
           <Route path="/dashboard/games" element={<Games />} />

@@ -17,7 +17,7 @@ const Games = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">My Games</h1>
+        <h1 className="text-2xl font-bold text-white">My Games</h1>
         {/* <Button icon={Plus} onClick={() => setShowRegisterModal(true)}>
           Register New Game
         </Button> */}
@@ -27,7 +27,8 @@ const Games = () => {
         setGames={setGames} 
         showFilters={false} 
         forceMyGames={true} 
-        showEvents={true} 
+        showEvents={true}
+        showGameSaAddress={true} // Enable gameSaAddress display
       />
       
       {/* <RegisterGameModal
@@ -40,4 +41,4 @@ const Games = () => {
   );
 };
 
-export default Games; 
+export default Games;
