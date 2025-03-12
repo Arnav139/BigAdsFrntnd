@@ -11,7 +11,7 @@ const navigation = [
   { name: 'Overview', icon: Home, href: '/dashboard' },
   { name: 'Games', icon: GamepadIcon, href: '/dashboard/games'},
   { name: 'Events', icon: CalendarClock, href: '/dashboard/events' },
-  { name: 'API Keys', icon: Key, href: '/dashboard/api-keys' },
+  // { name: 'API Keys', icon: Key, href: '/dashboard/api-keys' },
   { name: 'Documentation', icon: BookOpen, href: '/dashboard/docs' },
   { name: 'Analytics', icon: BarChart3, href: '/dashboard/analytics' },
   { name: 'Pending Requests', icon: UserPlus, href: '/dashboard/pending-requests' },
