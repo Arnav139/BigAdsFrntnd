@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://data-center-7yhai.ondigitalocean.app';
-// const API_BASE_URL = 'http://localhost:8008';
+// const API_BASE_URL = 'https://fda8-2409-40d0-1336-a6c3-6cc7-1956-cdd-9f3b.ngrok-free.app';
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -195,7 +195,11 @@ export const registerGame = async (data: RegisterGameRequest) => {
 export const getGames = async (filter: 'all' | 'mine' = 'all') => {
   try {
     const endpoint = filter === 'all' ? '/user/games' : '/user/my-games';
-    const response = await api.get<{ data: RegisterGameResponse['data']['game'][] }>(endpoint);
+    const response = await api.get<{ data: RegisterGameResponse['data']['game'][] }>(endpoint,{
+      headers:{
+        "Content-Type" : "application/json"
+      }
+    });
     // console.log(response.data, "get games response")  
     return response.data;
 

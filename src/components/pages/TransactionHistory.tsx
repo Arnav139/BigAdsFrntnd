@@ -4,6 +4,9 @@ import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 // import Image from "next/image";
 
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 interface User {
   userId: string;
 }
@@ -39,7 +42,7 @@ const TransactionHistory = () => {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          "https://data-center-7yhai.ondigitalocean.app/user/transactions"
+          `${backendUrl}user/transactions`
         );
         setTransactions(response.data.data);
         setFilterTransactions(response.data.data);
@@ -248,7 +251,7 @@ const TransactionHistory = () => {
           ) : error ? (
             <p className="text-center mt-4 text-red-500">{error}</p>
           ) : (
-            filterTransactions.map((item, index) => {
+            filterTransactions?.map((item, index) => {
               const link =
                 item.transactionChain === "POLYGON Testnet"
                   ? `https://www.oklink.com/amoy/tx/${item.transactionHash}`

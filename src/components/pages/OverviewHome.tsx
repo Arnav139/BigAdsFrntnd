@@ -11,6 +11,8 @@ import AnalyticCounts from "./AnalyticsCounts";
 import LineGraph from "./LineGraph";
 import { Loader } from "lucide-react";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 interface CountData {
   users: number;
   transactions: number;
@@ -57,7 +59,7 @@ const OverViewHome = () => {
     const fetchCountData = async () => {
       try {
         const response = await axios.get(
-          "https://data-center-7yhai.ondigitalocean.app/user/count"
+          `${backendUrl}user/count`
         );
         //  console.log(response.data, "count data");
         setCountData(response.data.data); // Store only the 'data' object
@@ -68,7 +70,7 @@ const OverViewHome = () => {
       }
     };
     fetchCountData();
-  });
+  },[]);
 
   const polygon = countData?.polygon;
   const diamante = countData?.diamante;

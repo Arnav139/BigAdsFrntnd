@@ -97,7 +97,7 @@ const ApiDocs: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`https://data-center-7yhai.ondigitalocean.app${endpoint.path}`, {
+      const response = await fetch(`https://fda8-2409-40d0-1336-a6c3-6cc7-1956-cdd-9f3b.ngrok-free.app${endpoint.path}`, {
         method: endpoint.method,
         headers,
         body: JSON.stringify(endpoint.requestBody)

@@ -5,6 +5,8 @@ import { useAuthStore } from '@/store/auth';
 import logo from '@/assets/big-ads-logo.avif';
 import { Link } from 'react-router-dom';
 
+const backendUrl : string = import.meta.env.VITE_BACKEND_URL
+
 const navigation = [
   { name: 'Overview', icon: Home, href: '/dashboard' },
   { name: 'Games', icon: GamepadIcon, href: '/dashboard/games'},
@@ -60,7 +62,7 @@ const Sidebar: React.FC<{isSidebarOpen: boolean; setIsSidebarOpen: any}> = ({isS
               item.name === 'Documentation' ? (
                 <a
                   key={item.name}
-                  href="https://data-center-7yhai.ondigitalocean.app/api-docs"
+                  href={`${backendUrl}api-docs`}
                   target="_blank"
                   className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-white hover:bg-gray-50 hover:text-gray-900"
                 >

@@ -148,7 +148,7 @@ function App() {
                         className="w-full"
                         onClick={() =>
                           window.open(
-                            "https://data-center-7yhai.ondigitalocean.app/api-docs",
+                            "https://fda8-2409-40d0-1336-a6c3-6cc7-1956-cdd-9f3b.ngrok-free.app/api-docs",
                             "_blank"
                           )
                         }
