@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react()
   ],
+  base: "./", // Ensures paths work properly on Vercel
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
