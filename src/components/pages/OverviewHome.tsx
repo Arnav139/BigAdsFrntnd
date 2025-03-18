@@ -59,7 +59,7 @@ const OverViewHome = () => {
     const fetchCountData = async () => {
       try {
         const response = await axios.get(
-          `${backendUrl}user/count`
+          `${backendUrl}admin/count`
         );
         //  console.log(response.data, "count data");
         setCountData(response.data.data); // Store only the 'data' object

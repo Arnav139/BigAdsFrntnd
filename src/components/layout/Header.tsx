@@ -19,6 +19,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
     action();
     setIsProfileOpen(false);
   };
+  const saAddress : string | undefined = userData?.saAddress;
 
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50" style={{ background: 'linear-gradient(104deg, rgb(0, 0, 56) 0%, rgb(113, 0, 132) 100%)' }}>
@@ -74,7 +75,26 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2"  />
                   </span>
-                  {address.slice(0, 4)}...{address.slice(-4)}
+                    WA: {address.slice(0, 4)}...{address.slice(-4)}
+                  {/* Copy button for larger screens */}
+                  <button
+                    onClick={handleCopyAddress}
+                    className=" p-1 hover:bg-[rgb(0,0,56)] rounded text-white"
+                    aria-label="Copy Wallet Address"
+                  >
+                    {isCopied ? (
+                      <Check className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-white" aria-label="Copy Wallet Address" />
+                    )}
+                  </button>
+                </span>
+                <span className="text-xs sm:text-sm  text-white flex items-center">
+                  {/* Conditionally render the wallet icon for smaller screens */}
+                  <span className="sm:hidden">
+                    <WalletIcon className="w-4 h-4 text-white mr-2"  />
+                  </span>
+                  SA: {saAddress?.slice(0, 4)}...{saAddress?.slice(-4)}
                   {/* Copy button for larger screens */}
                   <button
                     onClick={handleCopyAddress}

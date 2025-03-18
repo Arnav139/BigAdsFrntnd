@@ -37,6 +37,7 @@ export const useAuthStore = create<AuthState>()(
           const accounts = await window.ethereum.request({
             method: 'eth_requestAccounts',
           });
+
           // console.log(window.ethereum, "metamask window")
           // console.log(accounts[0], "metamask accounts address");
           if (accounts[0]) {
@@ -44,6 +45,7 @@ export const useAuthStore = create<AuthState>()(
             const appId = `app_${uuidv4().slice(0, 8)}`;
             const deviceId = `device_${uuidv4().slice(0, 8)}`;
             const maAddress = accounts[0].toLowerCase(); // Convert to lowercase for consistency
+            
             
             const userData = await registerUser(appId, deviceId, maAddress);
             

@@ -105,7 +105,7 @@ export const responseGameToken = async (gameId: number): Promise<ResponseGameTok
 export const sendEvents = async (eventId: string, gameId: number, wallet_address: string, gameAuthorizationToken: string, appId: string, deviceId: string) => {
 
    const token = localStorage.getItem('bigads_token');
-  const response = await api.post('/creator/sendEvents', {
+  const response = await api.post('/user/sendEvents', {
     eventId,
     gameId,
     wallet_address,
@@ -165,7 +165,7 @@ export const registerGame = async (data: RegisterGameRequest) => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await api.post<RegisterGameResponse>('/user/registerGame', data, {
+    const response = await api.post<RegisterGameResponse>('/creator/registerGame', data, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -194,7 +194,7 @@ export const registerGame = async (data: RegisterGameRequest) => {
 
 export const getGames = async (filter: 'all' | 'mine' = 'all') => {
   try {
-    const endpoint = filter === 'all' ? '/user/games' : '/user/my-games';
+    const endpoint = filter === 'all' ? '/admin/games' : '/admin/my-games';
     const response = await api.get<{ data: RegisterGameResponse['data']['game'][] }>(endpoint,{
       headers:{
         "Content-Type" : "application/json"
@@ -226,7 +226,7 @@ export const getCreatorRequestStatus = async (userId: number) => {
 
 export const approveCreatorRequest = async (maAddress: string, responseType: 'Approve' | 'Reject') => {
   try {
-    const response = await api.patch(`/user/creator-requests/${maAddress}/approve`, { responseType });
+    const response = await api.patch(`/admin/creator-requests/${maAddress}/approve`, { responseType });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -238,7 +238,7 @@ export const approveCreatorRequest = async (maAddress: string, responseType: 'Ap
 
 export const getPendingRequests = async () => {
   try {
-    const response = await api.get<{ data: CreatorRequest[] }>('/user/getPendingRequests');
+    const response = await api.get<{ data: CreatorRequest[] }>('/admin/PendingRequests');
     return response.data.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

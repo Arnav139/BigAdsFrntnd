@@ -42,7 +42,7 @@ const TransactionHistory = () => {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          `${backendUrl}user/transactions`
+          `${backendUrl}admin/transactions`
         );
         setTransactions(response.data.data);
         setFilterTransactions(response.data.data);
