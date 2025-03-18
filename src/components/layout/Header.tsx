@@ -70,7 +70,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                     <span className='hidden sm:inline text-xs'>ID:</span> {userData.userId}
                   </span>
                 )}
-                <span className="text-xs sm:text-sm  text-white flex items-center">
+                <span className="text-xs sm:text-sm  text-white flex items-center bg-[#8427cbcc] px-1  rounded">
                   {/* Conditionally render the wallet icon for smaller screens */}
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2"  />
@@ -89,7 +89,7 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                     )}
                   </button>
                 </span>
-                <span className="text-xs sm:text-sm  text-white flex items-center">
+                <span className="text-xs sm:text-sm  text-white flex items-center bg-[#8427cbcc] px-1  rounded">
                   {/* Conditionally render the wallet icon for smaller screens */}
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2"  />

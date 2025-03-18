@@ -42,7 +42,7 @@ const GamesList: React.FC<GamesListProps> = ({
           events: game?.events || []
         }));
 
-        console.log('All Games:', allGames);
+        // console.log('All Games:', allGames);
         const uniqueIds = new Set(allGames.map(game => game._id));
         if (uniqueIds.size !== allGames.length) {
           console.warn('Duplicate game IDs detected!');
