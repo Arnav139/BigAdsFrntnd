@@ -15,19 +15,36 @@ import PendingRequests from "./components/pages/PendingRequests";
 import Analytics from "./components/pages/Analytics";
 import Games from './components/pages/Games';
 import { ToastContainer } from "react-toastify";
+import { isTokenExpired } from "./lib/utils";
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [isRequestPending, setIsRequestPending] = useState(false);
   const [creatorStatus, setCreatorStatus] = useState<string | null>(null);
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, disconnect } = useAuthStore();
 
   // Get user role from localStorage
   const authData = JSON.parse(localStorage.getItem("auth-storage") || "{}");
   const userData = authData?.state?.userData || {};
- 
   const { role: userRole, maAddress, id, status } = userData;
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const checkToken = () => {
+      const token = localStorage.getItem('bigads_token');
+      if (token && isTokenExpired(token)) {
+        disconnect();
+        localStorage.removeItem('bigads_token');
+        toast.error('Your session has expired. Please log in again.');
+      }
+    };
+
+    checkToken();
+    const interval = setInterval(checkToken, 60000);
+    return () => clearInterval(interval);
+  }, [isAuthenticated, disconnect]);
  
   // Check creator request status on component mount
   useEffect(() => {

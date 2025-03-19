@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useAuthStore } from '@/store/auth';
 
 // const API_BASE_URL = 'https://fda8-2409-40d0-1336-a6c3-6cc7-1956-cdd-9f3b.ngrok-free.app';
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -17,6 +19,29 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Response interceptor to handle expired tokens and logout
+api.interceptors.response.use(
+  (response) => {
+    // If response is successful, just return it
+    return response;
+  },
+  (error) => {
+    if (axios.isAxiosError(error) && error.response) {
+      const { status } = error.response;
+
+      // If status code is 401 (Unauthorized), token may have expired
+      if (status === 401) {
+        // Log out the user and show the auth overlay
+        const { disconnect } = useAuthStore.getState();
+        disconnect();
+        toast.error('Your session has expired. Please log in again.');
+      }
+
+      return Promise.reject(error);
+    }
+  }
+);
 
 export interface RegisterUserResponse {
   message: string;
