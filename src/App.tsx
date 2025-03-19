@@ -75,7 +75,7 @@ function App() {
   const handleCreatorRequest = async () => {
     try {
       // Send the creator request
-      await requestCreator(maAddress, userRole, id);
+      await requestCreator(maAddress);
       setIsRequestPending(true);
       setCreatorStatus("pending");
       toast.success(

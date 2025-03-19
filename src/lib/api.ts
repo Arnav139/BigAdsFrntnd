@@ -145,12 +145,10 @@ export const sendEvents = async (eventId: string, gameId: number, wallet_address
   return response.data;
 };
 
-export const requestCreator = async (maAddress: string, userRole: string, id: number) => {
+export const requestCreator = async (maAddress: string) => {
   try {
     const response = await api.post<RequestCreatorResponse>('/user/requestCreator', {
       maAddress,
-      userRole,
-      id,
     });
     // console.log(response.data, "request creator response")
     return response.data;
