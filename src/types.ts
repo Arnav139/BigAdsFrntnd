@@ -12,28 +12,44 @@ declare global {
   }
 }
 
-export interface GameEvent {
-  id: number;
-  eventId: string;
-  gameId: number;
-  eventType: string;
-  createdAt: string;
+export interface Game {
+  _id?: number;           // Mapped from id
+  id?: number;            // From getGames response
+  creatorId?: number;     // From getGames
+  gameId: string;
+  gameSaAddress?: string; // From getGames
+  walletAddress?: string; // From getGames
+  Gamename: string;       // From getGames/getEvents
+  Gametype: string;       // From getGames/getEvents
+  description: string;
+  createdAt?: string;     // From getGames
+  gameToken?: string;     // Optional, hardcoded in frontend
+  isApproved?: boolean;   // Optional, hardcoded in frontend
+  events?: GameEvent[];   // Populated from getEvents
 }
 
-export interface Game {
-  id: number;
-  _id: number;
-  createrId: number;
-  gameId: string;
-  gameToken: string;
-  gameSaAddress: string;
-  name: string;
-  type: string;
-  description: string;
-  isApproved: boolean;
-  createdAt: string;
-  events: GameEvent[];
-  
+export interface GameEvent {
+  eventId: string;
+  eventType: string;
+  eventdescription: string;
+  game: {
+    gameId: string;
+    Gamename: string;
+    Gametype: string;
+    description: string;
+  };
+}
+
+export interface Event {
+  eventId: string;
+  eventType: string;
+  eventdescription: string;
+  game: {
+    gameId: string;
+    Gamename: string;
+    Gametype: string;
+    description: string;
+  };
 }
 
 export interface GameResponse {

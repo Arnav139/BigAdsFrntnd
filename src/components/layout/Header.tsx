@@ -48,13 +48,13 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
 
         {/* Right Section: Profile Toggle */}
         <div className="relative flex items-center">
-          <button
+          {/* <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="h-8 w-8 rounded-full bg-[#8427cbcc] mr-2 flex items-center justify-center flex-shrink-0"
             aria-label="Toggle Profile Options"
           >
             <span className="text-white text-xs sm:text-sm font-medium">GC</span>
-          </button>
+          </button> */}
 
           <div
             className={cn(
@@ -64,9 +64,9 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
               "sm:bg-transparent sm:border-none sm:shadow-none sm:p-0 sm:flex-row"
             )}
           >
-            {address && (
-              <div className="flex items-start flex-col sm:flex-row gap-2 sm:whitespace-nowrap"> 
-                {userData && (
+            {/* {address && ( */}
+              {/* <div className="flex items-start flex-col sm:flex-row gap-2 sm:whitespace-nowrap">  */}
+                {/* {userData && (
                   <span
                     className={cn(
                       "px-2 py-1 text-xs font-semibold rounded",
@@ -75,10 +75,10 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                   >
                     <span className='hidden sm:inline text-xs'>ID:</span> {userData.userId}
                   </span>
-                )}
+                )} */}
 
                 {/* Wallet Address (WA) */}
-                <span className="text-xs sm:text-sm text-white flex items-center bg-[#8427cbcc] px-1 rounded">
+                {/* <span className="text-xs sm:text-sm text-white flex items-center bg-[#8427cbcc] px-1 rounded">
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2" />
                   </span>
@@ -94,10 +94,10 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                       <Copy className="w-4 h-4 text-white" />
                     )}
                   </button>
-                </span>
+                </span> */}
 
                 {/* Smart Account Address (SA) */}
-                <span className="text-xs sm:text-sm text-white flex items-center bg-[#8427cbcc] px-1 rounded">
+                {/* <span className="text-xs sm:text-sm text-white flex items-center bg-[#8427cbcc] px-1 rounded">
                   <span className="sm:hidden">
                     <WalletIcon className="w-4 h-4 text-white mr-2" />
                   </span>
@@ -113,26 +113,26 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
                       <Copy className="w-4 h-4 text-white" />
                     )}
                   </button>
-                </span>
+                </span> */}
               </div>
-            )}
+            {/* )} */}
 
-            <button
+            {/* <button
               className="hover:bg-[rgb(0,0,56)] rounded-lg flex gap-2 items-center"
               aria-label="Notifications"
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               <span className="text-sm text-white sm:hidden">Notifications</span>
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
               className="hover:bg-[rgb(0,0,56)] rounded-lg flex items-center gap-2 w-full text-left"
               aria-label="Settings"
             >
               <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               <span className="text-sm text-white sm:hidden">Settings</span>
-            </button>
-
+            </button> */}
+{/* 
             <button
               onClick={() => handleButtonClick(disconnect)}
               className="hover:bg-[#9d39eaa2] rounded-lg flex items-center gap-2 p-2 bg-[#8427cb48] sm:bg-[#8427cb48] sm:hover:bg-[#8427cb48] w-full text-left text-red-600"
@@ -141,10 +141,10 @@ const Header: React.FC<{ isSidebarOpen: boolean; setIsSidebarOpen: any }> = ({ i
             >
               <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="text-sm sm:hidden">Logout</span>
-            </button>
+            </button> */}
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </header>
   );
 };

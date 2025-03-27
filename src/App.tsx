@@ -16,6 +16,7 @@ import Analytics from "./components/pages/Analytics";
 import Games from './components/pages/Games';
 import { ToastContainer } from "react-toastify";
 import { isTokenExpired } from "./lib/utils";
+import GameDetails from "./components/games/GameDetails";
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
@@ -133,7 +134,7 @@ function App() {
     <ToastContainer />
     <BrowserRouter>
       <DashboardLayout>
-        {!isAuthenticated && <AuthOverlay />}
+        {/* {!isAuthenticated && <AuthOverlay />}/ */}
         <Routes>
           <Route
             path="/"
@@ -184,7 +185,7 @@ function App() {
                     </div>
                   </Card>
 
-                  <Card title="API Status">
+                  {/* <Card title="API Status">
                     <div className="space-y-4">
                       <div className="flex items-center space-x-2">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
@@ -200,7 +201,7 @@ function App() {
                           : "Please connect your wallet to access the platform features."}
                       </p>
                     </div>
-                  </Card>
+                  </Card> */}
                 </div>
                 <div className="mt-8">
                   <h2 className="text-lg font-bold text-white mb-4">
@@ -217,17 +218,18 @@ function App() {
           <Route path="/dashboard/analytics" element={<Analytics />} />
 
           {/* Add conditional route for admin */}
-          {userRole === "admin" && (
-            <>
-            <Route
+          {/* {userRole === "admin" && (
+            <> */}
+            {/* <Route
               path="/dashboard/pending-requests"
               element={<PendingRequests />}
-            />
-            <Route path="/dashboard/analytics" element={<Analytics />} />
-            </>
-          )}
+            /> */}
+            {/* <Route path="/dashboard/analytics" element={<Analytics />} /> */}
+            {/* </>
+          )} */}
 
           <Route path="/dashboard/games" element={<Games />} />
+          <Route path="/games/:gameId" element={<GameDetails />} />
 
           {/* Catch-all route to redirect to home */}
           <Route path="*" element={<Navigate to="/" replace />} />

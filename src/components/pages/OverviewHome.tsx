@@ -59,7 +59,7 @@ const OverViewHome = () => {
     const fetchCountData = async () => {
       try {
         const response = await axios.get(
-          `${backendUrl}admin/count`
+          `${backendUrl}user/count`
         );
         //  console.log(response.data, "count data");
         setCountData(response.data.data); // Store only the 'data' object
@@ -88,20 +88,20 @@ const OverViewHome = () => {
         <Card title="Current Events" value={countData?.events} />
       </div>
       {/* Middle Section */}
-      <div className="w-full flex flex-col md:flex-row gap-4 items-start h-auto md:h-[30vh]">
-        <div className="w-full h-full md:w-[50%] rounded-lg backdrop-blur-sm">
-          <div className="flex flex-col h-full items-center justify-center">
-            <LineGraph  data={sampleData} />
-          </div>
-        </div>
-        <div className="w-full h-full md:w-[50%] md:mb-10 flex flex-col">
-          <AnalyticCounts
-            total={countData?.transactions}
-            a={polygon}
-            b={diamante}
-          />
-        </div>
-      </div>
+      {/* <div className="w-full flex flex-col md:flex-row gap-4 items-start h-auto md:h-[30vh]"> */}
+        {/* <div className="w-full h-full md:w-[50%] rounded-lg backdrop-blur-sm"> */}
+          {/* <div className="flex flex-col h-full items-center justify-center"> */}
+            {/* <LineGraph  data={sampleData} /> */}
+          {/* </div> */}
+        {/* </div> */}
+        {/* <div className="w-full h-full md:w-[50%] md:mb-10 flex flex-col"> */}
+          {/* <AnalyticCounts */}
+            {/* total={countData?.transactions} */}
+            {/* a={polygon} */}
+            {/* b={diamante} */}
+          {/* /> */}
+        {/* </div> */}
+      {/* </div> */}
       <div className="w-full md:h-[60vh] pb-6 md:pb-0 ">
         <TransactionHistory />
       </div>

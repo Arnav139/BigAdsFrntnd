@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { X, CalendarClock, AlertCircle } from "lucide-react";
 import type { Game } from "@/types";
 import Button from "../shared/Button";
-import { toast } from "react-toastify"; // Import Toast
-import { responseGameToken, sendEvents } from "@/lib/api"; // Import the new functions
+import { toast } from "react-toastify";
+import { responseGameToken, sendEvents } from "@/lib/api";
 
 interface GameEventsModalProps {
   isOpen: boolean;
   onClose: () => void;
   game: Game | null;
+  events: any[]; // Add events prop to receive fetched events
 }
 
 const GameEventsModal: React.FC<GameEventsModalProps> = ({
   isOpen,
   onClose,
   game,
+  events,
 }) => {
   const [loadingEvents, setLoadingEvents] = useState<{ [key: string]: boolean }>({});
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -25,36 +27,32 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
   const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
   const [activeEventId, setActiveEventId] = useState<string | null>(null);
 
-  // Function to handle the firing of the event
-  const handleFireEvent = async (eventId: string, gameId: number) => {
+  const handleFireEvent = async (eventId: string, gameId: string) => {
     try {
-      // Set the active event ID
       setActiveEventId(eventId);
-
-      // Set loading state for the specific event
       setLoadingEvents((prev) => ({ ...prev, [eventId]: true }));
 
       const authStorage = localStorage.getItem("auth-storage");
       const wallet_address = authStorage ? JSON.parse(authStorage).state.userData.maAddress : null;
-      const token = localStorage.getItem("bigads_token"); // User token
+      const token = localStorage.getItem("bigads_token");
 
       if (!token) {
         setSelectedEventId(eventId);
-        setSelectedGameId(gameId);
+        setSelectedGameId(game?._id || null); // Use game._id if available
         setShowLoginModal(true);
         return;
       }
 
-      const responseGameTokenData = await responseGameToken(gameId);
+      const responseGameTokenData = await responseGameToken(game?._id || 0); // Adjust to use game ID
       const gameAuthorizationToken = responseGameTokenData.data.gameToken;
       if (!gameAuthorizationToken) {
         throw new Error("Game authorization token is missing");
       }
-      const response = await sendEvents(eventId, gameId, wallet_address, gameAuthorizationToken, appId, deviceId);
-      
+      const response = await sendEvents(eventId, game?._id || 0, wallet_address, gameAuthorizationToken, appId, deviceId);
+
       toast.success(response.message || "Event fired successfully!");
       setErrorMessage(null);
-      onClose(); // Close modal on success
+      onClose();
     } catch (error: any) {
       console.error("Error firing event:", error);
       const errorMessage = error?.response?.data?.message || "An error occurred while firing the event";
@@ -62,14 +60,11 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
       toast.error(extractedMessage ? extractedMessage[0] : "An error occurred while firing the event");
       onClose();
     } finally {
-      // Reset loading state for the specific event
       setLoadingEvents((prev) => ({ ...prev, [eventId]: false }));
-      // Reset the active event ID
       setActiveEventId(null);
     }
   };
 
-  // Function to handle login and firing event
   const handleLoginAndFireEvent = async (appId: string, deviceId: string) => {
     if (!selectedEventId || !selectedGameId) {
       setErrorMessage("Missing event or game information");
@@ -77,10 +72,9 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
     }
 
     try {
-      let token = localStorage.getItem("bigads_token"); // User token
+      let token = localStorage.getItem("bigads_token");
       if (!token) {
-        token =
-          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEzNCwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc0MDMzMjEwMX0.bq2LmNUJqGXL4T11HkkVyDu_hhJ0twDjNnhXVOzAXeM";
+        token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEzNCwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc0MDMzMjEwMX0.bq2LmNUJqGXL4T11HkkVyDu_hhJ0twDjNnhXVOzAXeM";
       }
 
       const responseGameTokenData = await responseGameToken(selectedGameId);
@@ -93,19 +87,16 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
       const wallet_address = authStorage ? JSON.parse(authStorage).state.userData.maAddress : null;
 
       const response = await sendEvents(selectedEventId, selectedGameId, wallet_address, gameAuthorizationToken, appId, deviceId);
-      
+
       toast.success(response.data.message || "Event fired successfully!");
-      setShowLoginModal(false); // Close modal
+      setShowLoginModal(false);
       setErrorMessage(null);
-      setDeviceId(""); // Clear input fields
+      setDeviceId("");
       setAppId("");
-      onClose(); // Close main modal
+      onClose();
     } catch (error: any) {
       console.error("Error firing event:", error);
-      toast.error(
-        error?.response?.data?.message ||
-          "An error occurred while firing the event"
-      );
+      toast.error(error?.response?.data?.message || "An error occurred while firing the event");
     }
   };
 
@@ -113,19 +104,18 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
 
   return (
     <>
-      {/* Modal Overlay */}
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-4">
           <div className="flex justify-between items-center border-b pb-2">
-            <h2 className="text-lg font-semibold">{game.name} Events</h2>
+            <h2 className="text-lg font-semibold">{game.Gamename} Events</h2>
             <button onClick={onClose}>
               <X className="w-5 h-5 hover:text-red-500" />
             </button>
           </div>
 
           <div className="mt-4 space-y-4">
-            {game.events && game.events.length > 0 ? (
-              game.events.map((event) => (
+            {events && events.length > 0 ? (
+              events.map((event) => (
                 <div
                   key={event.eventId}
                   className="p-3 border rounded-lg flex items-start gap-3"
@@ -133,20 +123,14 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
                   <CalendarClock className="w-5 h-5 text-indigo-500 mt-1" />
                   <div>
                     <h4 className="font-medium">{event.eventType}</h4>
-                    <p className="text-sm text-gray-500">
-                      Event ID: {event.eventId}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Game ID: {event.gameId}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Created: {new Date(event.createdAt).toLocaleDateString()}
-                    </p>
+                    <p className="text-sm text-gray-500">Event ID: {event.eventId}</p>
+                    <p className="text-sm text-gray-500">Description: {event.eventdescription}</p>
+                    {/* No createdAt in getEvents response, remove or adjust if added later */}
                   </div>
                   <Button
                     variant="outline2"
                     size="sm"
-                    onClick={() => handleFireEvent(event.eventId, event.gameId)}
+                    onClick={() => handleFireEvent(event.eventId, event.game.gameId)}
                     loading={loadingEvents[event.eventId] || false}
                     disabled={activeEventId !== null && activeEventId !== event.eventId}
                   >
@@ -164,7 +148,6 @@ const GameEventsModal: React.FC<GameEventsModalProps> = ({
         </div>
       </div>
 
-      {/* Login Modal */}
       {showLoginModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-4">

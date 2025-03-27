@@ -217,7 +217,7 @@ export const registerGame = async (data: RegisterGameRequest) => {
 
 export const getGames = async (filter: 'all' | 'mine' = 'all') => {
   try {
-    const endpoint = filter === 'all' ? '/admin/games' : '/admin/my-games';
+    const endpoint = filter === 'all' ? '/user/game' : '/user/my-game';
     const response = await api.get<{ data: RegisterGameResponse['data']['game'][] }>(endpoint,{
       headers:{
         "Content-Type" : "application/json"
@@ -234,12 +234,37 @@ export const getGames = async (filter: 'all' | 'mine' = 'all') => {
   }
 };
 
+export const getEvents = async () => {
+  try {
+    const response = await api.get<{ data: GameEvent[] }>('/user/events');
+    return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response.data as ApiError;
+    }
+    throw error;
+  }
+}
+
 export const getCreatorRequestStatus = async (userId: number) => {
   try {
     const response = await api.get(`/user/creator-request-status/${userId}`);
     // console.log(response.data, "get creator request status response")
     return response.data;
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response.data as ApiError;
+    }
+    throw error;
+  }
+};
+
+export const getTransactionByEventId = async (eventId: string) => {
+  try {
+    const response = await api.get(`/user/event/transaction/${eventId}`);
+    // console.log(response.data, "get transaction by event id response")
+    return response.data;
+  } catch (error) { 
     if (axios.isAxiosError(error) && error.response) {
       throw error.response.data as ApiError;
     }
