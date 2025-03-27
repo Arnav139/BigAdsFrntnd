@@ -26,6 +26,8 @@ export interface Game {
   gameToken?: string;     // Optional, hardcoded in frontend
   isApproved?: boolean;   // Optional, hardcoded in frontend
   events?: GameEvent[];   // Populated from getEvents
+  usersPlayed : number;
+  transactionCount: number
 }
 
 export interface GameEvent {
