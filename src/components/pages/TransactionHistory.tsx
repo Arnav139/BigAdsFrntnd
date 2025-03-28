@@ -184,7 +184,7 @@ const TransactionHistory = () => {
                       {item.game.Gamename.slice(0, 10)}...({item.game.Gametype.slice(0, 6)})
                     </p>
                   </div>
-                  <div className="w-[10%] min-w-[100px] text-black">
+                  <div className="w-[15%] min-w-[100px] text-black">
                     <p>{item.event.eventId}</p>
                   </div>
                   <div className="w-[10%] min-w-[100px] text-black">
