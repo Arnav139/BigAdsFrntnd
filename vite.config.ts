@@ -28,6 +28,10 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   base: "./", // Change "/" to "./" to fix asset paths
+    server: {
+    port: process.env.PORT || 5173, // Explicitly set the port for Render
+    host: "0.0.0.0", // Allow external connections (important for Render)
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
