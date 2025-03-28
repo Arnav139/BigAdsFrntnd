@@ -91,10 +91,10 @@ const GamesList: React.FC<GamesListProps> = ({
               </span>
             </div>
             <div className="flex justify-between p-4 flex-row gap-2">
-              <div className="bg-gray-200 p-1 rounded-lg ">
+              <div className="bg-gray-200 p-1 rounded-lg text-center">
                 User Count: {game?.usersPlayed}
               </div>
-              <div className="bg-gray-200 p-1 rounded-lg">
+              <div className="bg-gray-200 p-1 rounded-lg text-center">
                 Transaction Count: {game?.transactionCount}
               </div>
             </div>
