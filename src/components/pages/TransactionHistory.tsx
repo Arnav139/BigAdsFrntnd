@@ -40,6 +40,11 @@ const TransactionHistory = () => {
   const [selectedFilter, setSelectedFilter] = useState<any>("Filter");
   const [showFilterOptions, setShowFilterOptions] = useState<any>(false);
   const [currentFilter, setCurrentFilter] = useState<string | null>(null);
+  // New state for tooltip
+  const [tooltip, setTooltip] = useState<{ hash: string; visible: boolean }>({
+    hash: "",
+    visible: false,
+  });
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -67,7 +72,7 @@ const TransactionHistory = () => {
       "Sl.No": index + 1,
       Player: item.user.userId,
       "Transaction Hash": item.transactionHash,
-      "Event Type": item.event.eventType,
+      "Eventവ Type": item.event.eventType,
       Game: `${item.game.Gamename} (${item.game.Gametype})`,
       "Event ID": item.event.eventId,
     }));
@@ -114,6 +119,21 @@ const TransactionHistory = () => {
     setShowFilterOptions(false);
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        // Show tooltip for 2 seconds
+        setTooltip({ hash: text, visible: true });
+        setTimeout(() => {
+          setTooltip({ hash: "", visible: false });
+        }, 500);
+      },
+      (err) => {
+        console.error("Failed to copy transaction hash: ", err);
+      }
+    );
+  };
+
   return (
     <div className="h-full w-full bg-white border border-black rounded-md p-2">
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-md p-2 gap-2">
@@ -133,10 +153,10 @@ const TransactionHistory = () => {
           <div className="w-[15%] min-w-[150px]">
             <p>Player</p>
           </div>
-          <div className="w-[40%] min-w-[350px]">
+          <div className="w-[35%] min-w-[350px]">
             <p>Transaction Hash</p>
           </div>
-          <div className="w-[10%] min-w-[100px]">
+          <div className="w-[15%] min-w-[150px]">
             <p>Event Type</p>
           </div>
           <div className="w-[10%] min-w-[100px]">
@@ -161,7 +181,7 @@ const TransactionHistory = () => {
               return (
                 <div
                   key={index}
-                  className={`text-[#f1f1f1c0] w-full min-w-[800px] md:min-w-full flex gap-2 items-center py-3 px-2 ${
+                  className={`text-[#f1f1f1c0] w-full min-w-[800px] md:min-w-full flex gap-2 items-center py-3 px-4 ${
                     index === transactions.length - 1 ? "" : "border-b"
                   } border-[#31373F46] hover:bg-[#14191F50] transition-all duration-300 cursor-pointer`}
                 >
@@ -171,17 +191,32 @@ const TransactionHistory = () => {
                   <div className="w-[15%] min-w-[150px] text-black">
                     <p>{item.user.userId}</p>
                   </div>
-                  <div className="w-[40%] min-w-[350px] text-black">
+                  <div className="w-[35%] min-w-[350px] text-black flex items-center gap-2 relative">
+                    <p
+                      onClick={() => copyToClipboard(item.transactionHash)}
+                      className="bg-off-white px-2 py-1 rounded-md cursor-pointer hover:bg-gray-200"
+                      aria-checked="true"
+                    >
+                      {item.transactionHash.slice(0, 14)}...
+                      {item.transactionHash.slice(-14)}
+                    </p>
+                    {/* Tooltip */}
+                    {tooltip.visible && tooltip.hash === item.transactionHash && (
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-indigo-300 text-black text-xs rounded py-1 px-2 whitespace-nowrap z-20">
+                        Copied to clipboard!
+                      </span>
+                    )}
+                  </div>
+                  <div className="w-[15%] min-w-[150px] text-black">
                     <p>
-                      {item.transactionHash.slice(0, 12)}...{item.transactionHash.slice(-12)}
+                      {item.event.eventType.slice(0, 6)}...
+                      {item.event.eventType.slice(-6)}
                     </p>
                   </div>
                   <div className="w-[10%] min-w-[100px] text-black">
-                    <p>{item.event.eventType.slice(0, 6)}...{item.event.eventType.slice(-6)}</p>
-                  </div>
-                  <div className="w-[10%] min-w-[100px] text-black">
                     <p>
-                      {item.game.Gamename.slice(0, 10)}...({item.game.Gametype.slice(0, 6)})
+                      {item.game.Gamename.slice(0, 10)}...(
+                      {item.game.Gametype.slice(0, 6)})
                     </p>
                   </div>
                   <div className="w-[15%] min-w-[100px] text-black">

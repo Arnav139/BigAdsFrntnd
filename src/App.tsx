@@ -214,20 +214,7 @@ function App() {
             }
           />
 
-          {/* Add Analytics route */}
-          <Route path="/dashboard/analytics" element={<Analytics />} />
-
-          {/* Add conditional route for admin */}
-          {/* {userRole === "admin" && (
-            <> */}
-            {/* <Route
-              path="/dashboard/pending-requests"
-              element={<PendingRequests />}
-            /> */}
-            {/* <Route path="/dashboard/analytics" element={<Analytics />} /> */}
-            {/* </>
-          )} */}
-
+          <Route path="/dashboard/analytics" element={<Analytics/>} />
           <Route path="/dashboard/games" element={<Games />} />
           <Route path="/games/:gameId" element={<GameDetails />} />
 
