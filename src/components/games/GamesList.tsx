@@ -87,10 +87,10 @@ const GamesList: React.FC<GamesListProps> = ({
               </span>
             </div>
             <div className='flex justify-between p-4 flex-direction-row'>
-            <div className='bg-gray-200 p-2 rounded-lg'>
+            <div className='bg-gray-200 p-1 rounded-lg'>
               User Count: {game?.usersPlayed}
             </div>
-            <div className='bg-gray-200 p-2 rounded-lg'>Transaction Count: {game?.transactionCount}</div>
+            <div className='bg-gray-200 p-1 rounded-lg'>Transaction Count: {game?.transactionCount}</div>
             </div>
             <div className="flex-1 p-4 pt-0">
               <p className="text-sm text-gray-600 mb-4">{game.description.slice(0,90)}......</p>
